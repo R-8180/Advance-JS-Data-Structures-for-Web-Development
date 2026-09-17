@@ -84,11 +84,3 @@ for (const product of products) {
     }
 }
 console.log(allRatings);
-
-//BAGIAN 4 Flattening Data
-//Latihan 4.1
-const allTags = products.flatMap(p => p.tags);
-console.log(allTags);
-//Latihan 4.2
-const allComments = products.flatMap(p => p.reviews.map(r => r.comment));
-console.log(allComments);
