@@ -1,4 +1,4 @@
-//BAGIAN 6 Searching (Linear Search)
+//BAGIAN 5 Map, Filter, Reduce
 const products = [
   { id: 1, title: "Laptop", price: 1200, category: "laptops", stock: 5 },
   { id: 2, title: "Smartphone", price: 800, category: "phones", stock: 15 },
@@ -31,81 +31,26 @@ const products = [
   { id: 29, title: "Gaming Headset", price: 140, category: "audio", stock: 11 },
   { id: 30, title: "Wi-Fi Router", price: 90, category: "networking", stock: 14 }
 ];
-//Latihan 6.1
-function linearSearch(array, target) {
- for (let i = 0; i < array.length; i++) {
- if (array[i] === target) return i;
- }
- return -1;
+//Latihan 5.1
+const laptopPrices = products.filter(p => p.category === "laptops").map(p => p.price);
+console.log(laptopPrices);
+const avgPrice = laptopPrices.reduce((sum, price) => sum + price, 0) / laptopPrices.length;
+console.log(avgPrice);
+//Latihan 5.2
+function getStatistics(products) {
+  const totalProducts = products.length;
+  const averagePrice = products.reduce((sum, p) => sum + p.price, 0) / totalProducts;
+  const highestPrice = products.reduce((max, p) => (p.price > max ? p.price : max), 0);
+  const lowestPrice = products.reduce((min, p) => (p.price < min ? p.price : min), Infinity);
+  const totalStock = products.reduce((sum, p) => sum + p.stock, 0);
+  const averageRating = products.reduce((sum, p) => sum + (p.rating || 0), 0) / totalProducts;
+  return {
+    totalProducts,
+    averagePrice,
+    highestPrice,
+    lowestPrice,
+    totalStock,
+    averageRating
+  };
 }
-//Latihan 6.2
-function linearSearch(products, id) {
- for (let i = 0; i < products.length; i++) {
- if (products[i].id === id) return i;
- }
- return -1;
-}
-console.log(linearSearch(products, 5));
-//BAGIAN 7 Searching (Binary Search)
-//Latihan 7.1
-function binarySearch(arr, target) {
- let left = 0;
- let right = arr.length - 1;
- while (left <= right) {
- const mid = Math.floor((left + right) / 2);
- if (arr[mid] === target) return mid;
- if (arr[mid] < target) left = mid + 1;
- else right = mid - 1;
- }
- return -1;
-}
-//Latihan 7.2
-function binarySearchByPrice(products, targetPrice) {
-    products.sort((a, b) => a.price - b.price);
- let left = 0;
- let right = products.length - 1;
- while (left <= right) {
- const mid = Math.floor((left + right) / 2);
- if (products[mid].price === targetPrice) return mid;
- if (products[mid].price < targetPrice) left = mid + 1;
- else right = mid - 1;
- }
- return -1;
-}
-console.log(binarySearchByPrice(products, 1200));
-//BAGIAN 8 Sorting
-const numbers = [5, 3, 8, 1];
-numbers.sort((a, b) => a - b); // ascending
-numbers.sort((a, b) => b - a); // descending
-products.sort((a, b) => a.price - b.price); // custom comparator
-//Latihan 8.1
-function bubbleSort(numbers) {
- const arr = [...numbers];
- for (let i = 0; i < arr.length - 1; i++) {
- for (let j = 0; j < arr.length - 1 - i; j++) {
- if (arr[j] > arr[j + 1]) {
- [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
- }
- }
- }
- return arr;
-}
-console.log(bubbleSort(numbers));
-//Latihan 8.2
-function sortProducts(products, sortBy) {
-    const sortedProducts = [...products];
-    if (sortBy === "price-asc") {
-        sortedProducts.sort((a, b) => a.price - b.price);
-    }
-    else if (sortBy === "price-desc") {
-        sortedProducts.sort((a, b) => b.price - a.price);
-    }
-    else if (sortBy === "rating") {
-        sortedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-    }
-    else if (sortBy === "title") {
-        sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
-    }
-    return sortedProducts;
-}
-console.log(sortProducts(products, "price-desc"));
+console.log(getStatistics(products));
